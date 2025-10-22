@@ -14,4 +14,6 @@ public class MyApp {
         int option=sc.nextInt();
         return option;
     }
+
+
 }
