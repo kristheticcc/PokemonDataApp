@@ -6,9 +6,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/** Main Class containing main function, openDataFile function, and the Test function.
+ * It also contains a globally declared ArrayList.
+ * @author Krish Makwana
+ * @version 1.0
+ */
 public class Main {
+    /** Global ArrayList "pokemonList" used for storing each line from the "pokemon.csv" file.
+     */
     private static ArrayList<String> pokemonList = new ArrayList<>();
 
+    /** Test function to print the first and last seven lines from the "pokemon.csv" file using the global ArrayList.
+     */
     public static void Test() {
         System.out.println("----------First seven lines:----------");
         for(int i=0; i<7; i++) {
@@ -21,6 +30,10 @@ public class Main {
 
     }
 
+    /** Function to open the date file "pokemon.csv" and read each line into the global ArrayList.
+     * Has a FileReader and BufferedReader to read the file.
+     * Uses try-catch block to handle IOException.
+     */
     public static void openDataFile() {
         Scanner sc=new Scanner(System.in);
 
@@ -50,6 +63,13 @@ public class Main {
 
     }
 
+    /** Main function to run the application.
+     * Creates an instance of MyApp class to show the menu and get user input.
+     * if user selects option 1, the application exists with a thank you message.
+     * if user selects option 2, it calls the openDataFile function to read the data file.
+     * if user selects an invalid option, it prompts the user to try again.
+     * @see MyApp
+     */
     public static void main(String[] args) {
         MyApp app = new MyApp();
         int option;
@@ -61,6 +81,7 @@ public class Main {
             }
             else if (option==2) {
                 openDataFile();
+                Test();
                 break;
             }
             else {
@@ -68,6 +89,6 @@ public class Main {
             }
 
         }
-        Test();
+
         }
     }
