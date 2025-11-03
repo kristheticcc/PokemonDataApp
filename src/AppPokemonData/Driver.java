@@ -1,6 +1,5 @@
 package AppPokemonData;
 import java.util.Scanner;
-import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,10 +10,15 @@ import java.util.ArrayList;
  * @author Krish Makwana
  * @version 1.0
  */
-public class Main {
+public class Driver {
     /** Global ArrayList "pokemonList" used for storing each line from the "pokemon.csv" file.
      */
     private static ArrayList<String> pokemonList = new ArrayList<>();
+
+    private static final int EXIT=1;
+    private static final int OPEN_FILE=2;
+    private static final int SEARCH_POKEMON=3;
+    private static final int UNIT_TESTING=10;
 
     /** Test function to print the first and last seven lines from the "pokemon.csv" file using the global ArrayList.
      */
@@ -28,6 +32,26 @@ public class Main {
             System.out.println(pokemonList.get(i));
         }
 
+    }
+
+
+
+    /** Function to display a meny with options to the user and get their input.
+     * @return int option selected by the user.
+     */
+    public static int showMenu() {
+
+        Scanner sc=new Scanner(System.in);
+
+        System.out.println("-----------MENU-----------");
+        System.out.println("1. Exit");
+        System.out.println("2. Open and read data file");
+        System.out.println("10. Unit Testing");
+        System.out.println("--------------------------");
+
+        System.out.print("Select an option: ");
+        int option=sc.nextInt();
+        return option;
     }
 
     /** Function to open the date file "pokemon.csv" and read each line into the global ArrayList.
@@ -68,18 +92,17 @@ public class Main {
      * if user selects option 1, the application exists with a thank you message.
      * if user selects option 2, it calls the openDataFile function to read the data file.
      * if user selects an invalid option, it prompts the user to try again.
-     * @see MyApp
      */
     public static void main(String[] args) {
-        MyApp app = new MyApp();
+
         int option;
         while(true) {
-            option=app.showMenu();
-            if (option==1) {
+            option=showMenu();
+            if (option==EXIT) {
                 System.out.println("Thanks for using this application.");
                 break;
             }
-            else if (option==2) {
+            else if (option==OPEN_FILE) {
                 openDataFile();
                 Test();
                 break;
