@@ -4,45 +4,57 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.File;
-import java.util.Scanner;
+/**
+ * ReadData class implements the IReadData interface to read data from a file.
+ */
+
 public class ReadData implements IReadData {
 
     private ArrayList<String> rawDataList = new ArrayList<>();
+    private String currentFileName="";
 
     @Override
     public boolean openDataFile(String fileName) {
         File file=new File(fileName);
-        return file.exists();
+        if(file.exists()) {
+            currentFileName=fileName;
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean readDataFile() {
-        Scanner sc=new Scanner(System.in);
-        System.out.print("Enter the file name: ");
-        String fileName=sc.nextLine();
-        while(true) {
-            try{
-                int lineCount=0;
-                FileReader fr=new FileReader(fileName);
-                BufferedReader br=new BufferedReader(fr);
-                String line;
-                while((line=br.readLine())!=null){
-                    rawDataList.add(line);
-                    lineCount++;
-
-                }
-                br.close();
-                fr.close();
-                System.out.println("File loaded successfully with "+lineCount+ " lines");
-                break;
-
-            }
-            catch(IOException e) {
-                System.out.println("File not found!!! Please try again.");
-            }
+        if(currentFileName.isEmpty()) {
+            return false;
         }
-        return true;
+        try {
+            rawDataList.clear();
+            FileReader fr=new FileReader(currentFileName);
+            BufferedReader br=new BufferedReader(fr);
+            String line;
+            while((line=br.readLine())!=null) {
+                rawDataList.add(line);
+            }
+            br.close();
+            fr.close();
+            return true;
+        }
+        catch(IOException e) {
+            System.out.println("File read error!!!");
+            return false;
+        }
 
+    }
+    /**
+     * Overloaded method to open and read data file in one call.
+     */
+    public boolean readDataFile(String fileName) {
+        if(openDataFile(fileName)) {
+            return readDataFile();
+        } else {
+            return false;
+        }
     }
 
     @Override

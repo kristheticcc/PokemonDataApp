@@ -2,6 +2,10 @@ package AppPokemonData;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * AnalyzePokemonData class implements IAnalyzePokemonData interface
+ * to analyze Pokemon data and extract unique character names.
+ */
 public class AnalyzePokemonData implements IAnalyzePokemonData {
     @Override
     public HashSet<String> getAllCharacterNames(ArrayList<String> originalData) {
