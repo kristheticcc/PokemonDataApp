@@ -8,8 +8,7 @@ import java.util.Map;
 import java.util.Collections;
 import java.util.Comparator;
 /**
- * AnalyzePokemonData class implements IAnalyzePokemonData interface
- * to analyze Pokemon data and extract unique character names.
+ * AnalyzePokemonData class implements methods for analyzing Pokemon character data.
  */
 public class AnalyzePokemonData implements IAnalyzePokemonData {
     @Override
@@ -18,8 +17,10 @@ public class AnalyzePokemonData implements IAnalyzePokemonData {
         int count=0;
         for(String line: originalData) {
             if(count++==0) continue; // skip header line
-            String[] parts=line.split(",");
-            characterNames.add(parts[31]);
+            String[] parts=parseCsvLine(line);
+            if(parts.length>30) {
+                characterNames.add(parts[30]);
+            }
         }
         return characterNames;
     }
@@ -31,25 +32,50 @@ public class AnalyzePokemonData implements IAnalyzePokemonData {
         for(String line: originalData) {
             if(count++==0) continue; // skip header line
 
-            String[] parts=line.split(",");
-            if(parts.length<40) continue;
+            String[] parts=parseCsvLine(line);
+            if(parts.length<38) continue;
 
             try {
-                String name=parts[31];
-                String japaneseName=parts[30];
-                int hp=Integer.parseInt(parts[29]);
-                int speed=Integer.parseInt(parts[36]);
-                int attack=Integer.parseInt(parts[20]);
-                int defense=Integer.parseInt(parts[26]);
-                String type1=parts[37];
-                String type2=parts[38];
+                String name=parts[30].trim();
+                String japaneseName=parts[29].trim();
+                int hp=Integer.parseInt(parts[28].trim());
+                int speed=Integer.parseInt(parts[35].trim());
+                int attack=Integer.parseInt(parts[19].trim());
+                int defense=Integer.parseInt(parts[25].trim());
+                String type1=parts[36].trim();
+                String type2=(parts.length>37)?parts[37].trim():"";
                 PokemonCharacter pokemon=new PokemonCharacter(name, japaneseName, hp, speed, attack, defense, type1, type2);
                 pokemons.add(pokemon);
             } catch(Exception e) {
-                System.out.println("Data parsing error in line: " + line);
+                continue;  // skip malformed lines
             }
         }
         return pokemons;
+    }
+
+
+
+    /**Parses a CSV line into an array of strings, handling quoted commas.
+     * @param line The CSV line to parse.
+     * @return An array of strings representing the parsed fields.
+     */
+    private String[] parseCsvLine(String line) {
+        ArrayList<String> result = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inQuotes = false;
+        for (int i=0; i<line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '\"') {
+                inQuotes = !inQuotes;
+            } else if (c == ',' && !inQuotes) {
+                result.add(current.toString());
+                current=new StringBuilder();
+            } else {
+                current.append(c);
+            }
+        }
+        result.add(current.toString());
+        return result.toArray(new String[0]);
     }
     @Override
     public TreeSet<PokemonCharacter> findByExactHp(ArrayList<PokemonCharacter> pokemons, int hp) {

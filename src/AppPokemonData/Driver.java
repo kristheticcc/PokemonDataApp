@@ -6,10 +6,8 @@ import java.util.TreeSet;
 import java.util.TreeMap;
 import java.util.Map;
 
-/** Driver class to run the Pokemon Data Analysis application.
- * Shows a menu to the user to select options like loading data file, searching Pokemon, and unit testing.
- * @author Krish Makwana
- * @version 1.0
+/** Driver class for the Pokemon Data Analysis Application.
+ * Provides a menu-driven interface for users to interact with the application.
  */
 public class Driver {
 
@@ -34,7 +32,7 @@ public class Driver {
     private static Scanner sc=new Scanner(System.in);
 
 
-    /** Function to display a meny with options to the user and get their input.
+    /** Function to display the main menu and get user input.
      * @return int option selected by the user.
      */
     public static int showMenu() {
@@ -69,6 +67,9 @@ public class Driver {
         return option;
     }
 
+    /** Function to display the secondary menu for attribute search and get user input.
+     * @return int option selected by the user.
+     */
     public static int showSecondaryMenu() {
         System.out.println("-------ATTRIBUTE SEARCH MENU-------");
         System.out.println("1. Get all characters with a specific hit point value");
@@ -78,6 +79,9 @@ public class Driver {
         return sc.nextInt();
     }
 
+    /** Function to display the tertiary menu for hit point search and get user input.
+     * @return int option selected by the user.
+     */
     public static int showHpTertiaryMenu() {
         System.out.println("-------HIT POINTS SEARCH-------");
         System.out.println("1. Find character with specific hit point value");
@@ -90,6 +94,9 @@ public class Driver {
         return sc.nextInt();
     }
 
+    /** Function to display the tertiary menu for speed search and get user input.
+     * @return int option selected by the user.
+     */
     public static int showSpeedTertiaryMenu() {
         System.out.println("-------SPEED SEARCH-------");
         System.out.println("1. Find the character with the fastest speed");
@@ -138,10 +145,9 @@ public class Driver {
             System.out.println("Failed to load the file after 2 attempts.");
         }
     }
+
     /** Function to handle unit testing options.
-     * Checks if the data file is loaded and then shows a sub-menu for unit testing options.
-     * Depending on the user's choice, it either prints the first and last seven lines of the data
-     * or writes all unique character names to a file.
+     * Displays a sub-menu for unit testing and executes the selected test.
      */
     public static void handleUnitTesting() {
         if(!fileLoaded) {
@@ -201,6 +207,9 @@ public class Driver {
         }
     }
 
+    /** Function to handle finding Pokemon characters by attributes.
+     * Displays a secondary menu for attribute search and executes the selected search option.
+     */
     public static void handleFindByAttributes() {
         if(!fileLoaded) {
             System.out.println("Error: Load a data file first (option 2)!");
@@ -221,6 +230,9 @@ public class Driver {
 
     }
 
+    /** Function to handle hit point attribute searches.
+     * Displays a tertiary menu for hit point searches and executes the selected search option.
+     */
     public static void handleHpMenu(){
         while(true) {
             int option=showHpTertiaryMenu();
@@ -278,6 +290,9 @@ public class Driver {
         }
     }
 
+    /** Function to handle speed attribute searches.
+     * Displays a tertiary menu for speed searches and executes the selected search option.
+     */
     public static void handleSpeedMenu() {
         while (true) {
             int option = showSpeedTertiaryMenu();
